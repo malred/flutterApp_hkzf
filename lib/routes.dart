@@ -5,6 +5,7 @@ import 'package:myapp/pages/home/index.dart';
 import 'package:myapp/pages/login.dart';
 import 'package:myapp/pages/not_found.dart';
 import 'package:myapp/pages/register.dart';
+import 'package:myapp/pages/room_add/index.dart';
 import 'package:myapp/pages/room_detail/index.dart';
 import 'package:myapp/pages/room_manage/index.dart';
 import 'package:myapp/setting.dart';
@@ -17,6 +18,7 @@ class Routes {
   static String register = '/register';
   static String setting = '/setting';
   static String roomManage = '/roomManage';
+  static String roomAdd = '/roomAdd';
   //定义路由处理函数
   static Handler _homeHandler =
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -46,6 +48,10 @@ class Routes {
   Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return RoomManagePage();
   });
+  static Handler _roomAddHandler =
+  Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return RoomAddPage();
+  });
 
   //关联路由名称和处理函数
   static void configureRoutes(FluroRouter router) {
@@ -55,6 +61,7 @@ class Routes {
     router.define(register, handler: _registerHandler);
     router.define(setting, handler: _settingHandler);
     router.define(roomManage, handler: _roomManageHandler);
+    router.define(roomAdd, handler: _roomAddHandler);
     router.notFoundHandler=_notFoundHandler;
   }
 }
