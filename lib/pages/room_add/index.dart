@@ -8,6 +8,7 @@ import 'package:myapp/widgets/common_floating_action_button.dart';
 import 'package:myapp/widgets/common_image_picker.dart';
 import 'package:myapp/widgets/common_radio_form_item.dart';
 import 'package:myapp/widgets/common_title.dart';
+import 'package:myapp/widgets/room_appliance.dart';
 
 class RoomAddPage extends StatefulWidget {
   @override
@@ -137,6 +138,7 @@ class _RoomAddPageState extends State<RoomAddPage> {
             ),
           ),
           CommonTitle('房屋配置'),
+          RoomAppliance(),
           CommonTitle('房屋描述'),
           Container(
             margin: EdgeInsets.only(bottom: 100),
