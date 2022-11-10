@@ -49,7 +49,7 @@ class _RoomApplianceState extends State<RoomAppliance> {
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
                     //点击时改变了e的check
-                    e.isChecked=!e.isChecked;
+                    e.isChecked = !e.isChecked;
                     setState(() {
                       //遍历,把被选中的按钮重新加载到list,从而改变对应check值
                       list = list
@@ -60,7 +60,7 @@ class _RoomApplianceState extends State<RoomAppliance> {
                           .toList();
                     });
                     //如果有list值改变的监听方法
-                    if(null!=widget.onChange){
+                    if (null != widget.onChange) {
                       widget.onChange!(list);
                     }
                   },
@@ -75,6 +75,43 @@ class _RoomApplianceState extends State<RoomAppliance> {
                         CommonCheckButton(e.isChecked)
                       ],
                     ),
+                  ),
+                ))
+            .toList(),
+      ),
+    );
+  }
+}
+
+class RoomApplianceList extends StatelessWidget {
+  List<String> list;
+
+  RoomApplianceList(this.list);
+
+  @override
+  Widget build(BuildContext context) {
+    //showList里是string,显示dataList里title和showList相同的item
+    var showList = _dataList.where((e) => list.contains(e.title)).toList();
+    if(showList.length==0){
+      return Container(
+          padding: EdgeInsets.only(left: 10),
+          child: Text('暂无房屋配置信息'));
+    }
+    var baseLen = MediaQuery.of(context).size.width / 5;
+    return Container(
+      child: Wrap(
+        //上下item之间间距
+        runSpacing: 15,
+        children: showList
+            .map((e) => Container(
+                  padding: EdgeInsets.all(10),
+                  //一行放五个
+                  width: baseLen,
+                  child: Column(
+                    children: [
+                      Image.asset(e.iconUri, height: baseLen),
+                      Text(e.title),
+                    ],
                   ),
                 ))
             .toList(),

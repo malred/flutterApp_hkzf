@@ -1,9 +1,12 @@
 // pages/room_detail/index.dart
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/home/info/data.dart';
+import 'package:myapp/pages/home/info/index.dart';
 import 'package:myapp/pages/room_detail/data.dart';
 import 'package:myapp/widgets/common_swiper.dart';
 import 'package:myapp/widgets/common_tag.dart';
 import 'package:myapp/widgets/common_title.dart';
+import 'package:myapp/widgets/room_appliance.dart';
 import 'package:share/share.dart';
 
 var bottomButtonTextStyle = TextStyle(fontSize: 20, color: Colors.white);
@@ -20,6 +23,7 @@ class RoomDetailPage extends StatefulWidget {
 class _RoomDetailPageState extends State<RoomDetailPage> {
   RoomDetailData? data;
   bool isLike = false; //是否收藏
+  bool showAllText = false; //是否完全显示文本内容(展开)
   @override
   void initState() {
     setState(() {
@@ -30,6 +34,8 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
   @override
   Widget build(BuildContext context) {
     if (null == data) return Container();
+    //如果房屋描述大于100字就缩略样式
+    bool showTextTool = data!.subTitle!.length > 100;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -90,8 +96,50 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
                 ),
               ),
               CommonTitle('房屋配置'),
+              RoomApplianceList(data!.appliances!),
               CommonTitle('房屋概况'),
+              Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Column(
+                  //居左
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ?? 表示如果为空就 ...
+                    Text(
+                      data!.subTitle ?? '暂无房屋概况',
+                      //最多显示多少行
+                      maxLines: showAllText ? null : 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        showTextTool
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    showAllText = !showAllText;
+                                  });
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(showAllText ? '展开' : '收起'),
+                                    Icon(showAllText
+                                        ? Icons.keyboard_arrow_down
+                                        : Icons.keyboard_arrow_up)
+                                  ],
+                                ))
+                            : Container(),
+                        Text('举报'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               CommonTitle('猜你喜欢'),
+              Info(false, infoData),
+              Container(
+                height: 100,
+              )
             ],
           ),
           Positioned(
